@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#140d1d">
+<title>Pod Station | Catálogo</title>
+<style>
+:root{--bg:#100c14;--panel:#1b1422;--purple:#8b5cf6;--purple2:#a78bfa;--white:#fff;--muted:#b9adca;--line:#382747}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--white);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}button,input,select{font:inherit}.wrap{width:min(1120px,92%);margin:auto}
+.topbar{background:#24142f;text-align:center;padding:9px 12px;color:#e8dcff;font-size:12px;letter-spacing:.08em}
+header{position:sticky;top:0;z-index:5;background:rgba(16,12,20,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:18px;min-height:76px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.08em;font-size:18px}
+.logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#a78bfa,#6d28d9);font-size:22px}
+.navlinks{display:flex;gap:22px;margin-left:auto;color:#d7cde1;font-size:14px}.cartbtn,.primary{border:0;border-radius:12px;background:var(--purple);color:#fff;padding:12px 16px;font-weight:800;cursor:pointer}.cartbtn span{background:#fff;color:#32194b;border-radius:20px;padding:2px 7px;margin-left:5px}
+.hero{padding:48px 0 28px}.hero-card{position:relative;overflow:hidden;border:1px solid #432c5b;border-radius:28px;padding:clamp(28px,6vw,68px);background:radial-gradient(circle at 85% 25%,#51277a 0,transparent 32%),linear-gradient(120deg,#241331,#120d18 70%)}
+.eyebrow{color:var(--purple2);font-size:12px;letter-spacing:.18em;font-weight:900}.hero h1{font-size:clamp(34px,6vw,64px);line-height:1.03;letter-spacing:-.04em;max-width:650px;margin:15px 0}.hero p{max-width:530px;color:#d1c6dd;line-height:1.7}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.secondary{border:1px solid #71558b;border-radius:12px;padding:12px 16px;font-weight:700}.hero-note{margin-top:20px;color:#a99ab8;font-size:12px}
+.section{padding:28px 0 50px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:22px}.section h2{font-size:clamp(24px,4vw,34px);margin:7px 0}.sub{color:var(--muted);font-size:14px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}.tools input,.tools select{background:var(--panel);border:1px solid var(--line);color:#fff;border-radius:11px;padding:12px 14px;min-width:0}.tools input{flex:1;min-width:180px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.product{border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}.product:hover{transform:translateY(-3px);border-color:#7954a2}.product-art{height:155px;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#4a2864,#21162b 65%);position:relative}.product-art .glyph{font-size:56px;filter:drop-shadow(0 10px 18px #0008)}.tag{position:absolute;top:12px;left:12px;border-radius:20px;background:#8b5cf6;color:#fff;font-size:10px;font-weight:900;padding:6px 9px;letter-spacing:.08em}.product-info{padding:15px;display:flex;flex-direction:column;flex:1}.product h3{font-size:16px;margin:0 0 5px}.product .detail{font-size:12px;color:var(--muted);min-height:18px}.price{font-size:22px;font-weight:900;margin:15px 0}.add{width:100%;margin-top:auto;border:1px solid #7855a0;border-radius:10px;background:#2c1d3b;color:#fff;padding:11px;font-weight:800;cursor:pointer}.add:hover{background:#543477}
+.empty{grid-column:1/-1;border:1px dashed var(--line);border-radius:16px;padding:30px;text-align:center;color:var(--muted)}
+.info-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:15px 0 50px}.info{border:1px solid var(--line);border-radius:16px;padding:18px;background:#17111d}.info strong{display:block;margin:9px 0}.info p{font-size:13px;color:var(--muted);margin:0;line-height:1.5}.info .ico{color:var(--purple2);font-size:22px}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:12px}.foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.overlay{position:fixed;inset:0;background:#0009;z-index:9;opacity:0;pointer-events:none;transition:.2s}.overlay.show{opacity:1;pointer-events:auto}.drawer{position:fixed;right:0;top:0;bottom:0;width:min(430px,100%);z-index:10;background:#17111d;border-left:1px solid var(--line);padding:22px;transform:translateX(102%);transition:.25s;display:flex;flex-direction:column}.drawer.show{transform:translateX(0)}.drawer-head{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:16px}.close{border:1px solid var(--line);background:var(--panel);color:#fff;border-radius:9px;padding:8px 11px;cursor:pointer}.cart-items{overflow:auto;flex:1;padding:12px 0}.cart-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}.cart-row small{display:block;color:var(--muted);margin-top:5px}.qty{display:flex;align-items:center;gap:8px;margin-top:10px}.qty button{background:#332242;border:0;color:#fff;border-radius:7px;width:27px;height:27px;cursor:pointer}.remove{background:none;border:0;color:#c9b7dc;text-decoration:underline;font-size:12px;cursor:pointer;margin-left:8px}.cart-total{border-top:1px solid var(--line);padding-top:16px}.total-line{display:flex;justify-content:space-between;font-size:19px;font-weight:900;margin-bottom:15px}.checkout{width:100%;padding:14px;border:0;border-radius:12px;background:#25d366;color:#062d14;font-weight:900;cursor:pointer}.fineprint{font-size:11px;color:var(--muted);line-height:1.5;margin-top:12px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;background:#fff;color:#21152b;padding:12px 18px;border-radius:12px;font-weight:800;z-index:20;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.navlinks{display:none}.info-strip{grid-template-columns:1fr}.product-art{height:135px}}
+@media(max-width:420px){.grid{gap:10px}.product-info{padding:12px}.product h3{font-size:14px}.price{font-size:19px}.product-art{height:115px}.product-art .glyph{font-size:45px}.brand{font-size:15px}.cartbtn{padding:10px 11px}}
+</style>
+</head>
+<body>
+<div class="topbar">POD STATION · CATÁLOGO ONLINE</div>
+<header><div class="wrap nav">
+<a class="brand" href="#"><span class="logo">P</span><span>POD <span style="color:#a78bfa">STATION</span></span></a>
+<nav class="navlinks"><a href="#inicio">Início</a><a href="#produtos">Catálogo</a><a href="#atendimento">Atendimento</a></nav>
+<button class="cartbtn" id="openCart">Sacola <span id="cartCount">0</span></button>
+</div></header>
+<main>
+<section class="hero wrap" id="inicio"><div class="hero-card">
+<div class="eyebrow">BEM-VINDO À POD STATION</div>
+<h1>Seu estilo.<br><span style="color:#a78bfa">Sua estação.</span></h1>
+<p>Explore nosso catálogo, escolha seus produtos e envie seu pedido diretamente para nosso atendimento.</p>
+<div class="hero-actions"><a class="primary" href="#produtos">Explorar catálogo ↘</a><a class="secondary" href="#atendimento">Fale com a loja</a></div>
+<div class="hero-note">Design roxo, preto e branco · Experiência otimizada para celular</div>
+</div></section>
+<section class="section wrap" id="produtos">
+<div class="section-head"><div><div class="eyebrow">ENCONTRE O SEU</div><h2>Catálogo de produtos</h2><div class="sub">Adicione itens à sacola e monte seu pedido.</div></div></div>
+<div class="tools"><input id="search" type="search" placeholder="Buscar produto..." aria-label="Buscar produto"><select id="sort" aria-label="Ordenar produtos"><option value="featured">Em destaque</option><option value="low">Menor preço</option><option value="high">Maior preço</option><option value="az">Nome A–Z</option></select></div>
+<div class="grid" id="productGrid"></div>
+</section>
+<section class="wrap info-strip" id="atendimento">
+<div class="info"><div class="ico">✦</div><strong>Catálogo organizado</strong><p>Encontre os produtos disponíveis em um só lugar.</p></div>
+<div class="info"><div class="ico">▣</div><strong>Pedido simplificado</strong><p>Confira os itens e o total antes de enviar sua mensagem.</p></div>
+<div class="info"><div class="ico">↗</div><strong>Atendimento direto</strong><p>Finalize o contato com a equipe pelo WhatsApp.</p></div>
+</section>
+</main>
+<footer><div class="wrap foot"><div><strong style="color:#fff">POD STATION</strong><br>Catálogo online</div><div>Preços e disponibilidade sujeitos a confirmação no atendimento.</div><div>© <span id="year"></span> Pod Station</div></div></footer>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Sacola de compras" aria-hidden="true">
+<div class="drawer-head"><div><div class="eyebrow">SEU PEDIDO</div><h2 style="margin:5px 0 0">Minha sacola</h2></div><button class="close" id="closeCart" aria-label="Fechar sacola">✕</button></div>
+<div class="cart-items" id="cartItems"></div>
+<div class="cart-total"><div class="total-line"><span>Total</span><span id="total">R$ 0,00</span></div><button class="checkout" id="checkout">Enviar pedido pelo WhatsApp ↗</button><div class="fineprint">Ao continuar, o WhatsApp será aberto com o resumo do pedido. O envio só acontece depois que você confirmar a mensagem. Preços e disponibilidade devem ser confirmados com a loja.</div></div>
+</aside>
+<div class="toast" id="toast">Produto adicionado à sacola</div>
+<script>
+const WHATSAPP = "5511980942111";
+const products = [
+ {id:"v55",name:"Ignite V55",detail:"Modelo V55",price:110,tag:"DESTAQUE"},
+ {id:"v80",name:"Ignite V80",detail:"Modelo V80",price:125,tag:""},
+ {id:"v155",name:"Ignite V155 Slim",detail:"Modelo V155 Slim",price:140,tag:""},
+ {id:"frozen",name:"Ignite Frozen",detail:"Modelo Frozen",price:150,tag:""},
+ {id:"v300",name:"Ignite V300",detail:"Modelo V300",price:160,tag:""},
+ {id:"elfbar30",name:"Elfbar 30K",detail:"Modelo Elfbar 30K",price:160,tag:""},
+ {id:"v400",name:"Ignite V400 Mix",detail:"Modelo V400 Mix",price:175,tag:""},
+ {id:"blacksheep",name:"Black Sheep 40K",detail:"Modelo Black Sheep 40K",price:175,tag:""}
+];
+const cart = new Map();
+const fmt = n => n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const grid=document.getElementById("productGrid"), search=document.getElementById("search"), sort=document.getElementById("sort");
+function renderProducts(){
+ let list=products.filter(p=>(p.name+" "+p.detail).toLowerCase().includes(search.value.toLowerCase().trim()));
+ if(sort.value==="low")list.sort((a,b)=>a.price-b.price);
+ if(sort.value==="high")list.sort((a,b)=>b.price-a.price);
+ if(sort.value==="az")list.sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));
+ grid.innerHTML=list.length?list.map(p=>`<article class="product"><div class="product-art">${p.tag?`<span class="tag">${p.tag}</span>`:""}<span class="glyph">▰</span></div><div class="product-info"><h3>${p.name}</h3><div class="detail">${p.detail}</div><div class="price">${fmt(p.price)}</div><button class="add" data-add="${p.id}">＋ Adicionar à sacola</button></div></article>`).join(""):`<div class="empty">Nenhum produto encontrado. Tente outra busca.</div>`;
+ grid.querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>add(b.dataset.add)));
+}
+function add(id){cart.set(id,(cart.get(id)||0)+1);renderCart();showToast(); }
+function change(id,delta){let q=(cart.get(id)||0)+delta;if(q<=0)cart.delete(id);else cart.set(id,q);renderCart();}
+function removeItem(id){cart.delete(id);renderCart();}
+function renderCart(){
+ let count=[...cart.values()].reduce((a,b)=>a+b,0), total=0;
+ document.getElementById("cartCount").textContent=count;
+ const box=document.getElementById("cartItems");
+ if(!count){box.innerHTML='<div class="empty" style="margin-top:16px">Sua sacola está vazia.<br>Adicione produtos do catálogo.</div>';}
+ else {box.innerHTML=[...cart.entries()].map(([id,q])=>{let p=products.find(x=>x.id===id);total+=p.price*q;return `<div class="cart-row"><div><strong>${p.name}</strong><small>${fmt(p.price)} cada</small><div class="qty"><button data-minus="${id}" aria-label="Diminuir quantidade">−</button><span>${q}</span><button data-plus="${id}" aria-label="Aumentar quantidade">＋</button><button class="remove" data-remove="${id}">Remover</button></div></div><strong>${fmt(p.price*q)}</strong></div>`}).join("");
+ box.querySelectorAll("[data-minus]").forEach(b=>b.onclick=()=>change(b.dataset.minus,-1));
+ box.querySelectorAll("[data-plus]").forEach(b=>b.onclick=()=>change(b.dataset.plus,1));
+ box.querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>removeItem(b.dataset.remove));
+ }
+ document.getElementById("total").textContent=fmt(total);
+}
+const overlay=document.getElementById("overlay"),drawer=document.getElementById("drawer");
+function openCart(){overlay.classList.add("show");drawer.classList.add("show");drawer.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";}
+function closeCart(){overlay.classList.remove("show");drawer.classList.remove("show");drawer.setAttribute("aria-hidden","true");document.body.style.overflow="";}
+document.getElementById("openCart").onclick=openCart;document.getElementById("closeCart").onclick=closeCart;overlay.onclick=closeCart;
+document.getElementById("checkout").onclick=()=>{
+ if(!cart.size){showToast("Adicione produtos antes de continuar");return;}
+ let total=0, lines=[...cart.entries()].map(([id,q])=>{let p=products.find(x=>x.id===id);total+=p.price*q;return `• ${p.name} — ${q} x ${fmt(p.price)} = ${fmt(p.price*q)}`});
+ let msg=`Olá, Pod Station! Gostaria de confirmar este pedido:\n\n${lines.join("\n")}\n\n*Total estimado: ${fmt(total)}*\n\nPode confirmar a disponibilidade, por favor?`;
+ window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
+};
+search.addEventListener("input",renderProducts);sort.addEventListener("change",renderProducts);
+let toastTimer;function showToast(message="Produto adicionado à sacola"){const t=document.getElementById("toast");t.textContent=message;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),1800);}
+document.getElementById("year").textContent=new Date().getFullYear();
+renderProducts();renderCart();
+</script>
+</body>
+</html>
