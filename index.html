@@ -57,7 +57,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-s
 <aside class="drawer" id="drawer" aria-label="Sacola de compras" aria-hidden="true">
 <div class="drawer-head"><div><div class="eyebrow">SEU PEDIDO</div><h2 style="margin:5px 0 0">Minha sacola</h2></div><button class="close" id="closeCart" aria-label="Fechar sacola">✕</button></div>
 <div class="cart-items" id="cartItems"></div>
-<div class="cart-total"><div class="total-line"><span>Total</span><span id="total">R$ 0,00</span></div><button class="checkout" id="checkout">Enviar pedido pelo WhatsApp ↗</button><div class="fineprint">Ao continuar, o WhatsApp será aberto com o resumo do pedido. O envio só acontece depois que você confirmar a mensagem. Preços e disponibilidade devem ser confirmados com a loja.</div></div>
+<div class="cart-total"><div id="minimumNotice" class="fineprint" style="margin:0 0 12px;color:#d8b4fe;font-weight:800">Pedido mínimo: 6 unidades.</div><div class="total-line"><span>Total</span><span id="total">R$ 0,00</span></div><button class="checkout" id="checkout">Enviar pedido pelo WhatsApp ↗</button><div class="fineprint">Pedido mínimo de 6 unidades no total, podendo misturar modelos. Preços e disponibilidade sujeitos a confirmação.</div></div>
 </aside>
 <div class="toast" id="toast">Produto adicionado à sacola</div>
 <script>
@@ -86,6 +86,8 @@ function change(id,delta){let q=(cart.get(id)||0)+delta;if(q<=0)cart.delete(id);
 function removeItem(id){cart.delete(id);renderCart();}
 function renderCart(){
  let count=[...cart.values()].reduce((a,b)=>a+b,0), total=0;
+ const notice=document.getElementById("minimumNotice");
+ if(notice) notice.textContent=count>=6?"✓ Pedido mínimo atingido: "+count+" unidades.":"Pedido mínimo: 6 unidades. Faltam "+(6-count)+" unidade(s).";
  document.getElementById("cartCount").textContent=count;
  const box=document.getElementById("cartItems");
  if(!count){box.innerHTML='<div class="empty" style="margin-top:16px">Sua sacola está vazia.<br>Adicione produtos do catálogo.</div>';}
@@ -101,7 +103,8 @@ function openCart(){overlay.classList.add("show");drawer.classList.add("show");d
 function closeCart(){overlay.classList.remove("show");drawer.classList.remove("show");drawer.setAttribute("aria-hidden","true");document.body.style.overflow="";}
 document.getElementById("openCart").onclick=openCart;document.getElementById("closeCart").onclick=closeCart;overlay.onclick=closeCart;
 document.getElementById("checkout").onclick=()=>{
- if(!cart.size){showToast("Adicione produtos antes de continuar");return;}
+ const unitCount=[...cart.values()].reduce((a,b)=>a+b,0);
+ if(unitCount<6){showToast("O pedido mínimo é de 6 unidades. Faltam "+(6-unitCount)+".");return;}
  let total=0, lines=[...cart.entries()].map(([id,q])=>{let p=products.find(x=>x.id===id);total+=p.price*q;return `• ${p.name} (${p.detail}) — ${q} x ${fmt(p.price)} = ${fmt(p.price*q)}`});
  let msg=`Olá, Pod Station! Gostaria de confirmar este pedido:\\n\\n${lines.join("\\n")}\\n\\n*Total estimado: ${fmt(total)}*\\n\\nPode confirmar a disponibilidade, por favor?`;
  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank","noopener");
