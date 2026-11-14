@@ -43,7 +43,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-s
 </div></section>
 <section class="section wrap" id="produtos">
 <div class="section-head"><div><div class="eyebrow">ENCONTRE O SEU</div><h2>Catálogo de produtos</h2><div class="sub">Adicione itens à sacola e monte seu pedido.</div></div></div>
-<div class="tools"><input id="search" type="search" placeholder="Buscar produto..." aria-label="Buscar produto"><select id="sort" aria-label="Ordenar produtos"><option value="featured">Em destaque</option><option value="low">Menor preço</option><option value="high">Maior preço</option><option value="az">Nome A–Z</option></select></div>
+<div class="tools"><input id="search" type="search" placeholder="Buscar produto..." aria-label="Buscar produto"><select id="sort" aria-label="Ordenar produtos"><option value="puffs">Puffs: menor para maior</option></select></div>
 <div class="grid" id="productGrid"></div>
 </section>
 <section class="wrap info-strip" id="atendimento">
@@ -68,7 +68,7 @@ const products = [
  {id:"v55",name:"Ignite V55",detail:"5.500 puffs",price:75,tag:"",image:"IMG_8161.webp",flavors:[["Icy Mint",3],["Menta",3],["Uva Ice",5],["Morango Ice",5],["Melancia Ice",4],["Morango C/ Melancia Ice",4],["Morango C/ Kiwi",5],["Abacaxi Ice",2],["Minty Melon",3]]},
  {id:"v80",name:"Ignite V80",detail:"8.000 puffs",price:84,tag:"",image:"IMG_8169.png",flavors:[["Uva Ice",5],["Icy Mint",1]]},
  {id:"v155",name:"Ignite V155 Ultra Slim",detail:"15.500 puffs",price:87,tag:"ESGOTADO",image:"IMG_8218.png",flavors:[]},
- {id:"frozen",name:"Ignite Frozen",detail:"20.000 puffs",price:93,tag:"ESGOTADO",image:"IMG_8219.png",flavors:[]},
+ {id:"frozen",name:"Ignite Frozen",detail:"20.000 puffs",price:93,tag:"",image:"IMG_8219.png",flavors:[["Icy Mint",1]]},
  {id:"v400",name:"Ignite V400 Mix",detail:"40.000 puffs",price:107,tag:"ESGOTADO",image:"IMG_8247.png",flavors:[]},
  {id:"blacksheep",name:"Black Sheep 40K",detail:"40.000 puffs",price:110,tag:"ESGOTADO",image:"IMG_8336.png",flavors:[]},
  {id:"te30",name:"Elfbar TE 30K",detail:"30.000 puffs",price:92,tag:"",image:"",flavors:[["Morango Ice",1]]},
@@ -81,10 +81,13 @@ const grid=document.getElementById("productGrid"), search=document.getElementByI
 function cartKey(id,flavor){return id+"::"+flavor}
 function renderProducts(){
  let list=products.filter(p=>(p.name+" "+p.detail+" "+p.flavors.map(f=>f[0]).join(" ")).toLowerCase().includes(search.value.toLowerCase().trim()));
- if(sort.value==="low")list.sort((a,b)=>a.price-b.price);
- if(sort.value==="high")list.sort((a,b)=>b.price-a.price);
- if(sort.value==="az")list.sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));
- grid.innerHTML=list.length?list.map(p=>`<article class="product"><div class="product-art">${p.tag?`<span class="tag">${p.tag}</span>`:""}<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="glyph" style="display:none">▰</span></div><div class="product-info"><h3>${p.name}</h3><div class="detail">${p.detail}</div><div class="price">${fmt(p.price)} <small style="font-size:11px;color:var(--muted)">/ unidade</small></div><div class="flavor-picker">${p.flavors.map((f,i)=>`<div class="flavor-option"><span>${f[0]} <span class="flavor-stock">(${f[1]} disp.)</span></span><span class="flavor-counter"><button type="button" data-flavor-minus="${p.id}" data-flavor-index="${i}" aria-label="Diminuir ${f[0]}">−</button><span data-flavor-count="${p.id}-${i}">0</span><button type="button" data-flavor-plus="${p.id}" data-flavor-index="${i}" aria-label="Adicionar ${f[0]}">+</button></span></div>`).join("")}</div></div></article>`).join(""):`<div class="empty">Nenhum produto encontrado. Tente outra busca.</div>`;
+ list.sort((a,b)=>{
+  const aOut=!a.flavors.some(f=>f[1]>0), bOut=!b.flavors.some(f=>f[1]>0);
+  if(aOut!==bOut)return Number(aOut)-Number(bOut);
+  const aPuffs=Number(a.detail.replace(/\D/g,"")), bPuffs=Number(b.detail.replace(/\D/g,""));
+  return aPuffs-bPuffs || a.name.localeCompare(b.name,"pt-BR");
+ });
+ grid.innerHTML=list.length?list.map(p=>{const isOut=!p.flavors.some(f=>f[1]>0);return `<article class="product"><div class="product-art">${isOut?`<span class="tag">ESGOTADO</span>`:""}<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="glyph" style="display:none">▰</span></div><div class="product-info"><h3>${p.name}</h3><div class="detail">${p.detail}</div><div class="price">${fmt(p.price)} <small style="font-size:11px;color:var(--muted)">/ unidade</small></div><div class="flavor-picker">${p.flavors.map((f,i)=>`<div class="flavor-option"><span>${f[0]} <span class="flavor-stock">(${f[1]} disp.)</span></span><span class="flavor-counter"><button type="button" data-flavor-minus="${p.id}" data-flavor-index="${i}" aria-label="Diminuir ${f[0]}">−</button><span data-flavor-count="${p.id}-${i}">0</span><button type="button" data-flavor-plus="${p.id}" data-flavor-index="${i}" aria-label="Adicionar ${f[0]}">+</button></span></div>`).join("")}</div></div></article>`}).join(""):`<div class="empty">Nenhum produto encontrado. Tente outra busca.</div>`;
  grid.querySelectorAll("[data-flavor-plus]").forEach(btn=>btn.addEventListener("click",()=>{const p=products.find(x=>x.id===btn.dataset.flavorPlus),i=Number(btn.dataset.flavorIndex),f=p.flavors[i],key=cartKey(p.id,f[0]),existing=cart.get(key)||0;if(existing>=f[1]){showToast("Estoque máximo desse sabor atingido.");return;}cart.set(key,existing+1);document.querySelector(`[data-flavor-count="${p.id}-${i}"]`).textContent=existing+1;renderCart();showToast(f[0]+" adicionado");}));
  grid.querySelectorAll("[data-flavor-minus]").forEach(btn=>btn.addEventListener("click",()=>{const p=products.find(x=>x.id===btn.dataset.flavorMinus),i=Number(btn.dataset.flavorIndex),f=p.flavors[i],key=cartKey(p.id,f[0]),existing=cart.get(key)||0;if(existing<=1)cart.delete(key);else cart.set(key,existing-1);const now=cart.get(key)||0;document.querySelector(`[data-flavor-count="${p.id}-${i}"]`).textContent=now;renderCart();}));
 }
